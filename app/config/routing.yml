@@ -1,4 +1,8 @@
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+# app/config/routing.yml
 
+submit_new_fortunes_endpoint:
+    path: /api/v1/fortunes
+    defaults:
+        _controller: app.api.fortune_controller:submit
+    methods:
+        - POST
