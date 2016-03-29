@@ -3,3 +3,28 @@
 services:
     app.api.fortune_controller:
         class: 'AppBundle\Controller\Api\FortuneController'
+        arguments:
+            - '@app.submit_new_fortune_handler'
+
+    app.submit_new_fortune_handler:
+        class: 'AppBundle\Service\SubmitNewFortuneHandler'
+        arguments:
+            - '@app.save_new_fortune'
+
+    app.save_new_fortune:
+        alias: app.bridge.doctrine_dbal_save_new_fortune
+
+    app.bridge.doctrine_dbal_save_new_fortune:
+        class: 'AppBundle\Service\Bridge\DoctrineDbalSaveNewFortune'
+        arguments:
+            - '@database_connection'
+
+    app.json_request_content_listener:
+        class: 'AppBundle\EventListener\JsonRequestContentListener'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    app.exception_listener:
+        class: 'AppBundle\EventListener\ExceptionListener'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
