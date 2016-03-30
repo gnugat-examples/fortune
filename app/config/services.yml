@@ -11,6 +11,7 @@ services:
         class: 'AppBundle\Controller\FortuneController'
         arguments:
             - '@app.list_all_fortunes_handler'
+            - '@twig'
 
     # Handlers
     app.list_all_fortunes_handler:

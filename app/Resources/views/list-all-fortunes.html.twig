@@ -1,0 +1,14 @@
+{# app/Resources/views/list-all-fortunes.html.twig #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Fortunes</title>
+</head>
+<body>
+    <ul>
+        {% for fortune in fortunes %}
+        <li>{{ fortune.content }}</li>
+        {% endfor %}
+    </ul>
+</body>

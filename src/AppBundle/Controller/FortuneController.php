@@ -11,10 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 class FortuneController
 {
     private $listAllFortunesHandler;
+    private $twig;
 
-    public function __construct(ListAllFortunesHandler $listAllFortunesHandler)
-    {
+    public function __construct(
+        ListAllFortunesHandler $listAllFortunesHandler,
+        \Twig_Environment $twig
+    ) {
         $this->listAllFortunesHandler = $listAllFortunesHandler;
+        $this->twig = $twig;
     }
 
     public function listAll(Request $request)
@@ -22,7 +26,10 @@ class FortuneController
         $listAllFortunes = new ListAllFortunes(
         );
         $fortunes = $this->listAllFortunesHandler->handle($listAllFortunes);
+        $html = $this->twig->render('::list-all-fortunes.html.twig', array(
+            'fortunes' => $fortunes,
+        ));
 
-        return new Response('', 200);
+        return new Response($html, 200);
     }
 }
