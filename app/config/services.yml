@@ -1,16 +1,22 @@
 # app/config/services.yml
 
 services:
+    # Controllers
     app.api.fortune_controller:
         class: 'AppBundle\Controller\Api\FortuneController'
         arguments:
             - '@app.submit_new_fortune_handler'
 
+    app.fortune_controller:
+        class: 'AppBundle\Controller\FortuneController'
+
+    # Handlers
     app.submit_new_fortune_handler:
         class: 'AppBundle\Service\SubmitNewFortuneHandler'
         arguments:
             - '@app.save_new_fortune'
 
+    # Services
     app.save_new_fortune:
         alias: app.bridge.doctrine_dbal_save_new_fortune
 
@@ -19,6 +25,7 @@ services:
         arguments:
             - '@database_connection'
 
+    # Listeners
     app.json_request_content_listener:
         class: 'AppBundle\EventListener\JsonRequestContentListener'
         tags:

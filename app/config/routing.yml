@@ -6,3 +6,10 @@ submit_new_fortunes_endpoint:
         _controller: app.api.fortune_controller:submit
     methods:
         - POST
+
+list_all_fortunes_page:
+    path: /
+    defaults:
+        _controller: app.fortune_controller:listAll
+    methods:
+        - GET
