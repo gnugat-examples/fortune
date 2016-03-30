@@ -9,14 +9,29 @@ services:
 
     app.fortune_controller:
         class: 'AppBundle\Controller\FortuneController'
+        arguments:
+            - '@app.list_all_fortunes_handler'
 
     # Handlers
+    app.list_all_fortunes_handler:
+        class: 'AppBundle\Service\ListAllFortunesHandler'
+        arguments:
+            - '@app.find_all_fortunes'
+
     app.submit_new_fortune_handler:
         class: 'AppBundle\Service\SubmitNewFortuneHandler'
         arguments:
             - '@app.save_new_fortune'
 
     # Services
+    app.find_all_fortunes:
+        alias: app.bridge.doctrine_dbal_find_all_fortunes
+
+    app.bridge.doctrine_dbal_find_all_fortunes:
+        class: 'AppBundle\Service\Bridge\DoctrineDbalFindAllFortunes'
+        arguments:
+            - '@database_connection'
+
     app.save_new_fortune:
         alias: app.bridge.doctrine_dbal_save_new_fortune
 
