@@ -1,6 +1,14 @@
 # app/config/services.yml
 
 services:
+    # Commands
+    app.print_last_fortune_command:
+        class: 'AppBundle\Command\PrintLastFortuneCommand'
+        arguments:
+            - '@app.print_last_fortune_handler'
+        tags:
+            - { name: console.command }
+
     # Controllers
     app.api.fortune_controller:
         class: 'AppBundle\Controller\Api\FortuneController'
@@ -19,6 +27,11 @@ services:
         arguments:
             - '@app.find_all_fortunes'
 
+    app.print_last_fortune_handler:
+        class: 'AppBundle\Service\PrintLastFortuneHandler'
+        arguments:
+            - '@app.find_last_fortune'
+
     app.submit_new_fortune_handler:
         class: 'AppBundle\Service\SubmitNewFortuneHandler'
         arguments:
@@ -30,6 +43,14 @@ services:
 
     app.bridge.doctrine_dbal_find_all_fortunes:
         class: 'AppBundle\Service\Bridge\DoctrineDbalFindAllFortunes'
+        arguments:
+            - '@database_connection'
+
+    app.find_last_fortune:
+        alias: app.bridge.doctrine_dbal_find_last_fortune
+
+    app.bridge.doctrine_dbal_find_last_fortune:
+        class: 'AppBundle\Service\Bridge\DoctrineDbalFindLastFortune'
         arguments:
             - '@database_connection'
 
